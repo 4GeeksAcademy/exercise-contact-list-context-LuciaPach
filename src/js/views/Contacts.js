@@ -16,7 +16,7 @@ export const Contacts = () => {
 
 	useEffect(() => {
 		actions.getAgenda();
-	}, []);
+	}, [actions]);
 
 	return (
 		<div className="container">
@@ -28,30 +28,34 @@ export const Contacts = () => {
 				</p>
 				<div id="contacts" className="panel-collapse collapse show" aria-expanded="true">
 					<ul className="list-group pull-down" id="contact-list">
-						{store.agenda.map(contact => (
-							<ContactCard
-								key={contact.id}
-								contact={contact}
-								onDelete={() => {
-									console.log("deleting...");
-									setState(prevState => ({
-										...prevState,
-										showModal: true,
-										contact: contact,
-										modalId: "delete"
-									}));
-								}}
-								onUpdate={() => {
-									console.log("updating...");
-									setState(prevState => ({
-										...prevState,
-										showModal: true,
-										contact: contact,
-										modalId: "update"
-									}));
-								}}
-							/>
-						))}
+						{Array.isArray(store.agenda) ? (
+							store.agenda.map(contact => (
+								<ContactCard
+									key={contact.id}
+									contact={contact}
+									onDelete={() => {
+										console.log("deleting...");
+										setState(prevState => ({
+											...prevState,
+											showModal: true,
+											contact: contact,
+											modalId: "delete"
+										}));
+									}}
+									onUpdate={() => {
+										console.log("updating...");
+										setState(prevState => ({
+											...prevState,
+											showModal: true,
+											contact: contact,
+											modalId: "update"
+										}));
+									}}
+								/>
+							))
+						) : (
+							<p>No contacts available</p>
+						)}
 					</ul>
 				</div>
 			</div>
